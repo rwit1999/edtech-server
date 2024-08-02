@@ -16,7 +16,7 @@ import layoutRouter from './Routes/layout.route'
 app.use(express.json({limit:'50mb'})) //this is body parser
 app.use(cookieParser())
 app.use(cors({
-    origin: 'https://edtech-client-six.vercel.app', // Your frontend URL
+    origin: 'https://edtech-client-six.vercel.app/', // Your frontend URL
     credentials: true // Allow credentials (cookies, authorization headers, etc.)
 }));
 

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activation Email</title>
+    <style type="text/css">
+        body{
+            margin:0;
+            padding: 0;
+            min-width: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #222222;
+        }
+        h1{
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        p{
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+        .email-wrapper{
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .email-header{
+            background-color: rgb(63, 63, 250);
+            padding: 24px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="email-header">
+            <h1>Your  Devzen Order is confirmed</h1>
+            <p>And we're just as excited as you are</p>
+        </div>
+        <br>    
+        <div>
+            <h4>Here's what you ordered</h4>
+            <table style="border-bottom:1px solid #0000002f">
+                <tr>
+                    <td>
+                        Order : <%= order._id %>
+                    </td>
+                    <td>
+                        Order Date: <%= order.date %>
+                    </td>
+                </tr>
+            </table>
+            <table style="width:90%; margin:auto; display:block">
+                <tr>
+                    <td class="first-td">Item</td>
+                    <td class="first-td">Qty</td>
+                    <td class="first-td">Cost</td>
+                </tr>
+            </table>
+
+            <table style="width:90%; margin:auto; display:block">
+                <tr>
+                    <td class="second-td"><%= order.name %></td>
+                    <td class="second-td">1</td>
+                    <td class="second-td">Rs <%= order.price %></td>
+                </tr>
+            </table>
+            
+            <table class="table-row" style="border-top:1px solid #00000029">
+                <tr>
+                    <td class="col-2">Subtotal</td>
+                    <td class="col-2">Rs <%= order.price %></td>
+                </tr>
+            </table>
+
+            <table class="table-row" style="margin-top:-20px;">
+                <tr>
+                    <td class="col-2">Total</td>
+                    <td class="col-2">Rs <%= order.price %></td>
+                </tr>
+            </table>
+
+            
+        </div>
+    </div>
+</body>
+</html>
