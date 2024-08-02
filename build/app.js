@@ -18,9 +18,17 @@ const analytics_route_1 = __importDefault(require("./Routes/analytics.route"));
 const layout_route_1 = __importDefault(require("./Routes/layout.route"));
 exports.app.use(express_1.default.json({ limit: '50mb' })); //this is body parser
 exports.app.use((0, cookie_parser_1.default)());
+const allowedOrigins = ['https://edtech-client-six.vercel.app'];
 exports.app.use((0, cors_1.default)({
-    origin: '*', // Your frontend URL
-    // credentials: true // Allow credentials (cookies, authorization headers, etc.)
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true // Allow credentials
 }));
 exports.app.use('/api/v1', user_route_1.default);
 exports.app.use('/api/v1', course_route_1.default);

@@ -15,9 +15,17 @@ import layoutRouter from './Routes/layout.route'
 
 app.use(express.json({limit:'50mb'})) //this is body parser
 app.use(cookieParser())
+const allowedOrigins = ['https://edtech-client-six.vercel.app'];
+
 app.use(cors({
-    origin: '*', // Your frontend URL
-    // credentials: true // Allow credentials (cookies, authorization headers, etc.)
+  origin: function(origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true // Allow credentials
 }));
 
 
