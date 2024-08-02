@@ -17,7 +17,7 @@ app.use(express.json({limit:'50mb'})) //this is body parser
 app.use(cookieParser())
 app.use(cors({
     origin: '*', // Your frontend URL
-    credentials: true // Allow credentials (cookies, authorization headers, etc.)
+    // credentials: true // Allow credentials (cookies, authorization headers, etc.)
 }));
 
 
