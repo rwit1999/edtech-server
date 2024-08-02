@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const user_controller_1 = require("../controllers/user.controller");
+const protectRoute_1 = require("../middlewares/protectRoute");
+const userRouter = express_1.default.Router();
+userRouter.post('/register', user_controller_1.registerUser);
+userRouter.post('/activate-user', user_controller_1.activateUser);
+userRouter.post('/add-admin', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, (0, protectRoute_1.authorizedRoles)("admin"), user_controller_1.addAdmin);
+userRouter.post('/login', user_controller_1.loginUser);
+userRouter.get('/logout', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, user_controller_1.logoutUser);
+userRouter.post('/social-auth', user_controller_1.socialAuth);
+userRouter.get('/refresh-token', protectRoute_1.isAuthenticated, user_controller_1.updateAccessToken);
+userRouter.get('/me', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, user_controller_1.getUserInfo);
+userRouter.get('/get-all-users', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, (0, protectRoute_1.authorizedRoles)("admin"), user_controller_1.getAllUsers);
+userRouter.put('/update-user-info', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, user_controller_1.updateUserInfo);
+userRouter.put('/update-password', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, user_controller_1.updatePassword);
+userRouter.put('/update-profile-picture', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, user_controller_1.updateProfilePicture);
+userRouter.put('/update-user-role', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, (0, protectRoute_1.authorizedRoles)("admin"), user_controller_1.updateUserRole);
+userRouter.delete('/delete-user/:id', user_controller_1.updateAccessToken, protectRoute_1.isAuthenticated, (0, protectRoute_1.authorizedRoles)("admin"), user_controller_1.deleteUser);
+exports.default = userRouter;
