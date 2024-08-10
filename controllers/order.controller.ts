@@ -49,30 +49,7 @@ export const createOrder = CatchAsyncError(
             userId:user._id,
             payment_info
         }        
-        const mailData = {
-            order:{
-                _id:course._id.toString().slice(0,6),
-                name:course.name,
-                price:course.price,
-                date:new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
-            }
-        }
-
-        const html = await ejs.renderFile(path.join(__dirname,'../mails/order-confirmation.ejs'),{order:mailData})
         
-        try{
-            if(user){
-                await sendMail({
-                    email:user.email,
-                    subject:"Order confirmation",
-                    template:"order-confirmation.ejs",
-                    data:mailData
-                })
-            }
-        }catch(error){
-            return next(new ErrorHandler(error.message, 500))
-        }
-
         user?.courses?.push({courseId})
 
         const userId=req.user._id as string
