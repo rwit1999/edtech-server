@@ -248,7 +248,7 @@ exports.updateProfilePicture = (0, catchAsyncError_1.CatchAsyncError)(async (req
             });
             user.avatar = {
                 public_id: myCloud.public_id,
-                url: myCloud.secure_url
+                url: myCloud.secure_url // this is displayed in Image on frontend
             };
         }
         await user.save();

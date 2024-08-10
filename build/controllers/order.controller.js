@@ -6,10 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.newPayment = exports.sendStripePublishableKey = exports.getAllOrders = exports.createOrder = void 0;
 const catchAsyncError_1 = require("../middlewares/catchAsyncError");
 const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
-const path_1 = __importDefault(require("path"));
-const ejs_1 = __importDefault(require("ejs"));
-const sendMail_1 = require("../sendMail");
-const notificationModel_1 = __importDefault(require("../models/notificationModel"));
 const orderModel_1 = __importDefault(require("../models/orderModel"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const course_model_1 = __importDefault(require("../models/course.model"));
@@ -37,43 +33,16 @@ exports.createOrder = (0, catchAsyncError_1.CatchAsyncError)(async (req, res, ne
             return next(new ErrorHandler_1.default('You have already purchased this course', 400));
         }
         const course = await course_model_1.default.findById(courseId);
-        console.log(course);
+        // console.log(course);
         const data = {
             courseId: course._id,
             userId: user._id,
             payment_info
         };
-        const mailData = {
-            order: {
-                _id: course._id.toString().slice(0, 6),
-                name: course.name,
-                price: course.price,
-                date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-            }
-        };
-        const html = await ejs_1.default.renderFile(path_1.default.join(__dirname, '../mails/order-confirmation.ejs'), { order: mailData });
-        try {
-            if (user) {
-                await (0, sendMail_1.sendMail)({
-                    email: user.email,
-                    subject: "Order confirmation",
-                    template: "order-confirmation.ejs",
-                    data: mailData
-                });
-            }
-        }
-        catch (error) {
-            return next(new ErrorHandler_1.default(error.message, 500));
-        }
         user?.courses?.push({ courseId });
         const userId = req.user._id;
         await redis_1.redis.set(userId, JSON.stringify(user));
         await user?.save();
-        await notificationModel_1.default.create({
-            user: user?._id,
-            title: "New Order",
-            message: `You have a new order from ${course.name}`
-        });
         course.purchased = course.purchased + 1;
         await course.save();
         const order = await orderModel_1.default.create(data);

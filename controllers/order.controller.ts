@@ -42,7 +42,7 @@ export const createOrder = CatchAsyncError(
         }
 
         const course= await Course.findById(courseId)
-        console.log(course);
+        // console.log(course);
         
         const data:any={
             courseId:course._id,
@@ -58,12 +58,6 @@ export const createOrder = CatchAsyncError(
 
         await user?.save()
         
-        await Notification.create({
-            user:user?._id,
-            title:"New Order",
-            message:`You have a new order from ${course.name}`
-        })
-
         course.purchased=course.purchased+1
         
         await course.save()
